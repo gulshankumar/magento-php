@@ -27,5 +27,5 @@ jobs:
           context: .
           push: true
           tags: |
-            gulshanmaurya/my-magento-image:latest
-            gulshanmaurya/my-magento-image:${{ github.event.release.tag_name }}
+            gulshanmaurya/magento-php:latest
+            gulshanmaurya/magento-php:${{ github.event.release.tag_name }}
