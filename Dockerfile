@@ -63,4 +63,3 @@ COPY conf/www.conf /usr/local/etc/php-fpm.d/
 
 # Set working directory and permissions
 WORKDIR /var/www/html
-
