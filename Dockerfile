@@ -60,6 +60,3 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 # Copy PHP-FPM configs (ensure these files exist)
 COPY conf/php-fpm.conf /usr/local/etc/
 COPY conf/www.conf /usr/local/etc/php-fpm.d/
-
-# Set working directory and permissions
-WORKDIR /var/www/html
