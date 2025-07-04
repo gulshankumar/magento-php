@@ -8,10 +8,29 @@ RUN apt-get update && apt-get install -y \
     vim libmagickwand-dev libreadline-dev supervisor
 
 # Install PHP extensions
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-png \
+RUN docker-php-ext-configure \
+    gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install \
-    intl pdo pdo_mysql mbstring zip xml bcmath soap xsl opcache bcmath \
-    sockets bz2 calendar exif gettext mysqli pcntl sysvmsg sysvsem sysvshm gd
+    bcmath \
+    bz2 \
+    calendar \
+    exif \
+    gd \
+    gettext \
+    intl \
+    mbstring \
+    mysqli \
+    opcache \
+    pcntl \
+    pdo_mysql \
+    soap \
+    sockets \
+    sodium \
+    sysvmsg \
+    sysvsem \
+    sysvshm \
+    xsl \
+    zip 
 
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
