@@ -3,13 +3,15 @@ FROM php:8.1-fpm
 LABEL maintainer="Gulshan Kumar Maurya <gulshan.4dream@gmail.com>"
 
 ARG APP_ID=1000
-RUN groupadd -g "$APP_ID" app \
-    && useradd -g "$APP_ID" -u "$APP_ID" -d /var/www -s /bin/bash app
 
-RUN mkdir -p /var/www/html \
+# Create app user and group
+RUN groupadd -g "$APP_ID" app \
+    && useradd -m -u "$APP_ID" -g app -s /bin/bash app \
+    && mkdir -p /var/www/html \
     && chown -R app:app /var/www
 
-RUN apt-get update && apt-get install -y \
+# Install system dependencies & PHP extensions in one layer
+RUN apt-get update && apt-get install -y --no-install-recommends \
     cron \
     gnupg \
     gzip \
@@ -28,13 +30,8 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     zip \
     zlib1g-dev \
-    && rm -rf /var/lib/apt/lists/*
-
-
-# Install PHP extensions
-RUN docker-php-ext-configure \
-    gd --with-freetype --with-jpeg --with-webp \
-    && docker-php-ext-install \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
+    && docker-php-ext-install -j$(nproc) \
     bcmath \
     bz2 \
     calendar \
@@ -54,13 +51,16 @@ RUN docker-php-ext-configure \
     sysvsem \
     sysvshm \
     xsl \
-    zip 
+    zip \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
+# Copy PHP-FPM configs (ensure these files exist)
 COPY conf/php-fpm.conf /usr/local/etc/
 COPY conf/www.conf /usr/local/etc/php-fpm.d/
 
-USER app:app
+# Set working directory and permissions
 WORKDIR /var/www/html
+
