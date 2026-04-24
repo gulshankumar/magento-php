@@ -1,4 +1,4 @@
-FROM php:8.1-fpm
+FROM php:8.3-fpm-bookworm
 
 LABEL maintainer="Gulshan Kumar Maurya <gulshan.4dream@gmail.com>"
 
