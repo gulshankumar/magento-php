@@ -1,4 +1,4 @@
-FROM php:8.3-fpm-bookworm
+FROM php:8.5-fpm
 
 LABEL maintainer="Gulshan Kumar Maurya <gulshan.4dream@gmail.com>"
 
@@ -36,12 +36,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     bz2 \
     calendar \
     exif \
+    ftp \
     gd \
     gettext \
     intl \
     mbstring \
     mysqli \
-    opcache \
     pcntl \
     pdo_mysql \
     soap \
